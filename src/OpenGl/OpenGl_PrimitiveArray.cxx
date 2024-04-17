@@ -604,7 +604,9 @@ void OpenGl_PrimitiveArray::drawMarkers (const Handle(OpenGl_Workspace)& theWork
   if (anAspectMarker->HasPointSprite (aCtx))
   {
     // Textured markers will be drawn with the point sprites
-    aCtx->SetPointSize (anAspectMarker->MarkerSize());
+    // Apply the scale for point image sprites as well, because sometimes we need it, for example to
+    // scale on retina displays with the device pixel ratio
+    aCtx->SetPointSize (anAspectMarker->MarkerSize() * anAspectMarker->Aspect()->MarkerScale());
     aCtx->SetPointSpriteOrigin();
 
     aCtx->core11fwd->glDrawArrays (aDrawMode, 0, !myVboAttribs.IsNull() ? myVboAttribs->GetElemsNb() : myAttribs->NbElements);
