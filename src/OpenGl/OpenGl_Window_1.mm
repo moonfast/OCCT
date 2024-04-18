@@ -138,6 +138,19 @@ void OpenGl_Window::Init (const Handle(OpenGl_GraphicDriver)& theDriver,
   EGLDisplay anEglDisplay = (EGLDisplay )theDriver->getRawGlDisplay();
   EGLContext anEglContext = (EGLContext )theDriver->getRawGlContext();
   EGLConfig  anEglConfig  = (EGLConfig  )theDriver->getRawGlConfig();
+
+  if ((EGLContext )theGContext != EGL_NO_CONTEXT)
+  {
+    if (anEglContext == EGL_NO_CONTEXT)
+      anEglContext = theGContext;
+    if (anEglDisplay == EGL_NO_DISPLAY)
+      anEglDisplay = (Aspect_Display )eglGetDisplay (EGL_DEFAULT_DISPLAY);
+    if (!anEglConfig) {
+      EGLint aNbConfigs = 0;
+      eglGetConfigs(anEglDisplay, &anEglConfig, 1, &aNbConfigs);
+    }
+  }
+
   if (anEglDisplay == EGL_NO_DISPLAY
    || anEglContext == EGL_NO_CONTEXT
    || (anEglConfig == NULL

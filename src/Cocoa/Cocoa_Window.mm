@@ -582,3 +582,19 @@ Aspect_VKey Cocoa_Window::VirtualKeyFromNative (Standard_Integer theKey)
   }
   return Aspect_VKey_UNKNOWN;
 }
+
+Standard_Real Cocoa_Window::DevicePixelRatio() const
+{
+  if (myHView == NULL)
+  {
+    return 1;
+  }
+
+#if defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE
+  return 1;
+#else
+  NSRect aBounds = NSMakeRect(0, 0, 1, 1);
+  NSSize aRes = [myHView convertSizeToBacking: aBounds.size];
+  return aRes.width;
+#endif
+}
