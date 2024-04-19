@@ -267,7 +267,7 @@ void Graphic3d_CView::SubviewResized (const Handle(Aspect_NeutralWindow)& theWin
     return;
   }
 
-  const Graphic3d_Vec2i aWinSize (myParentView->Window()->Dimensions());
+  const Graphic3d_Vec2i aWinSize (myParentView->Window()->ConvertPointToBacking(Graphic3d_Vec2d(myParentView->Window()->Dimensions())));
   Graphic3d_Vec2i aViewSize (Graphic3d_Vec2d(aWinSize) * mySubviewSize);
   if (mySubviewSize.x() > 1.0)
   {
